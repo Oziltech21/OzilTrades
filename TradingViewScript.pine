@@ -1,0 +1,17 @@
+//@version=6
+indicator("SMC Scalping Indicator", overlay=true)
+
+// Define inputs and constants
+var buyColor = color.new(color.green, 0)
+var sellColor = color.new(color.red, 0)
+var neutralColor = color.new(color.gray, 80)
+
+// Price action analysis logic
+var highEMA = ta.ema(close, 200)
+var lowEMA = ta.ema(close, 50)
+var buySignal = ta.crossover(close, lowEMA) and close > highEMA
+var sellSignal = ta.crossunder(close, highEMA) and close < lowEMA
+
+// Render buy/sell signals
+plotshape(series=buySignal ? 1 : na, color=buyColor, style=shape.labelup, title="Buy Signal")
+plotshape(series=sellSignal ? 1 : na, color=sellColor, style=shape.labeldown, title="Sell Signal")
